@@ -1,0 +1,1 @@
+ALTER TABLE "redmine_time"."user" ADD COLUMN "redmine_api_key" text;

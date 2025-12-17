@@ -1,0 +1,26 @@
+# Dependencies
+node_modules
+
+# Build outputs
+.output
+dist
+.nitro
+.tanstack
+
+# Development
+.git
+.vscode
+.crush
+.claude
+
+# Environment files (will be passed via --env-file)
+.env
+.env.local
+.env.*.local
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS files
+.DS_Store

@@ -1,0 +1,87 @@
+import type { QueryClient } from "@tanstack/react-query";
+import {
+	createRootRouteWithContext,
+	HeadContent,
+	Outlet,
+	Scripts,
+} from "@tanstack/react-router";
+import { checkAuth } from "@/lib/auth-utils";
+import appCss from "../styles.css?url";
+
+interface MyRouterContext {
+	queryClient: QueryClient;
+	auth: {
+		isAuthenticated: boolean;
+	};
+}
+
+export const Route = createRootRouteWithContext<MyRouterContext>()({
+	beforeLoad: async () => {
+		const isAuthenticated = await checkAuth();
+		return {
+			auth: {
+				isAuthenticated,
+			},
+		};
+	},
+	head: () => ({
+		meta: [
+			{
+				charSet: "utf-8",
+			},
+			{
+				name: "viewport",
+				content: "width=device-width, initial-scale=1",
+			},
+			{
+				title: "Redmine Time",
+			},
+		],
+		links: [
+			{
+				rel: "stylesheet",
+				href: appCss,
+			},
+		],
+	}),
+
+	component: RootComponent,
+	shellComponent: RootDocument,
+});
+
+function RootComponent() {
+	return (
+		<div className="min-h-dvh flex flex-col">
+			<main className="flex-1">
+				<Outlet />
+			</main>
+			<footer className="bg-muted text-muted-foreground py-3 px-4 text-center text-sm border-t">
+				<div className="flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-4">
+					<span>&copy; {new Date().getFullYear()} Redmine Time</span>
+					<span className="hidden sm:inline">|</span>
+					<span>Martin Blasko & Milos Hegr</span>
+				</div>
+			</footer>
+		</div>
+	);
+}
+
+function RootDocument({ children }: { children: React.ReactNode }) {
+	return (
+		<html lang="en">
+			<head>
+				<HeadContent />
+				{/* favicon */}
+				<link rel="icon" href="/logo.svg" />
+				<style>
+					@import
+					url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
+				</style>
+			</head>
+			<body>
+				{children}
+				<Scripts />
+			</body>
+		</html>
+	);
+}

@@ -1,0 +1,18 @@
+{
+  "id": "time-placeholders",
+  "started": "2025-12-10T14:30:00Z",
+  "lastUpdated": "2025-12-10T14:45:00Z",
+  "status": "active",
+  "phase": "detail",
+  "progress": {
+    "discovery": { "answered": 5, "total": 5 },
+    "detail": { "answered": 0, "total": 5 }
+  },
+  "contextFiles": [
+    "src/lib/types.ts",
+    "src/lib/db/schema.ts",
+    "src/lib/server/custom-issues.ts",
+    "src/hooks/useTimeEntries.ts"
+  ],
+  "relatedFeatures": ["custom-issues"]
+}
