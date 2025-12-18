@@ -104,8 +104,6 @@ export const getTimeEntries = createServerFn({ method: "GET" })
 
 		const url = `${baseUrl}/time_entries.json?${params.toString()}`;
 
-		console.log("[Redmine API] Fetching time entries:", url);
-
 		try {
 			const response = await fetch(url, {
 				method: "GET",
@@ -123,9 +121,6 @@ export const getTimeEntries = createServerFn({ method: "GET" })
 
 			const json = (await response.json()) as RedmineTimeEntriesResponse;
 
-			console.log(
-				`[Redmine API] Fetched ${json.time_entries.length} time entries`,
-			);
 			// console.log(
 			// 	"[Redmine API] Sample entry:",
 			// 	json.time_entries[0]
@@ -400,8 +395,6 @@ export const getIssuesByIds = createServerFn({ method: "POST" })
 		const issueIdsParam = data.issueIds.join(",");
 		const url = `${baseUrl}/issues.json?issue_id=${issueIdsParam}&limit=100`;
 
-		console.log("[Redmine API] Fetching issues:", url);
-
 		try {
 			const response = await fetch(url, {
 				method: "GET",
@@ -418,10 +411,6 @@ export const getIssuesByIds = createServerFn({ method: "POST" })
 			}
 
 			const json = (await response.json()) as RedmineIssuesResponse;
-
-			console.log(
-				`[Redmine API] Fetched ${json.issues.length} issues out of ${data.issueIds.length} requested`,
-			);
 
 			// Convert array to Map for O(1) lookups
 			const issueMap = new Map<number, RedmineIssueDetail>();
@@ -458,8 +447,6 @@ export const getIssues = createServerFn({ method: "GET" })
 
 		const url = `${baseUrl}/issues.json?${params.toString()}`;
 
-		console.log("[Redmine API] Fetching issues:", url);
-
 		try {
 			const response = await fetch(url, {
 				method: "GET",
@@ -476,8 +463,6 @@ export const getIssues = createServerFn({ method: "GET" })
 			}
 
 			const json = (await response.json()) as RedmineIssuesResponse;
-
-			console.log(`[Redmine API] Fetched ${json.issues.length} issues`);
 
 			return json.issues;
 		} catch (error) {

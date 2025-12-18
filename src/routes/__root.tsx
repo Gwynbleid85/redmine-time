@@ -1,3 +1,4 @@
+import { useState } from "react";
 import type { QueryClient } from "@tanstack/react-query";
 import {
 	createRootRouteWithContext,
@@ -6,6 +7,12 @@ import {
 	Scripts,
 } from "@tanstack/react-router";
 import { checkAuth } from "@/lib/auth-utils";
+import { useChangelog } from "@/hooks/useChangelog";
+import {
+	ChangelogDialog,
+	ChangelogHistoryDialog,
+} from "@/components/features/changelog";
+import { APP_VERSION, getLatestChangelog } from "@/lib/changelog-data";
 import appCss from "../styles.css?url";
 
 interface MyRouterContext {
@@ -50,6 +57,13 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 });
 
 function RootComponent() {
+	const { auth } = Route.useRouteContext();
+	const [showHistory, setShowHistory] = useState(false);
+
+	// Changelog hook - only fetches when authenticated
+	const changelog = useChangelog(auth.isAuthenticated);
+	const latestEntry = getLatestChangelog();
+
 	return (
 		<div className="min-h-dvh flex flex-col">
 			<main className="flex-1">
@@ -60,8 +74,39 @@ function RootComponent() {
 					<span>&copy; {new Date().getFullYear()} Redmine Time</span>
 					<span className="hidden sm:inline">|</span>
 					<span>Martin Blasko & Milos Hegr</span>
+					{auth.isAuthenticated && (
+						<>
+							<span className="hidden sm:inline">|</span>
+							<button
+								type="button"
+								onClick={() => setShowHistory(true)}
+								className="hover:underline focus:outline-none focus:underline"
+							>
+								v{APP_VERSION}
+							</button>
+						</>
+					)}
 				</div>
 			</footer>
+
+			{/* Auto-show changelog for new version */}
+			{auth.isAuthenticated && changelog.shouldShowChangelog && latestEntry && (
+				<ChangelogDialog
+					open={true}
+					onOpenChange={() => {}}
+					version={latestEntry.version}
+					content={latestEntry.content}
+					onMarkAsSeen={changelog.markAsSeen}
+				/>
+			)}
+
+			{/* Changelog history dialog */}
+			{auth.isAuthenticated && (
+				<ChangelogHistoryDialog
+					open={showHistory}
+					onOpenChange={setShowHistory}
+				/>
+			)}
 		</div>
 	);
 }

@@ -56,6 +56,19 @@ export async function ensureMigrations(): Promise<void> {
 			await migrate(db, { migrationsFolder });
 			console.log("✅ Database migrations completed successfully");
 		} catch (error) {
+			// Handle "already exists" errors gracefully - schema is in sync
+			const errorStr = JSON.stringify(error, Object.getOwnPropertyNames(error));
+			if (
+				errorStr.includes("already exists") ||
+				(error instanceof Error &&
+					error.cause &&
+					String(error.cause).includes("already exists"))
+			) {
+				console.log(
+					"⚠️  Migration skipped - tables already exist. Use 'bun run db:push' to sync schema.",
+				);
+				return;
+			}
 			console.error("❌ Database migration failed:", error);
 			// Reset promise so migrations can be retried
 			migrationPromise = null;

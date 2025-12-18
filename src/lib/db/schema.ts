@@ -22,6 +22,7 @@ export const user = redmineTimeSchema.table("user", {
 	emailVerified: boolean("email_verified").notNull().default(false),
 	image: text("image"),
 	redmineApiKey: text("redmine_api_key"),
+	lastSeenVersion: text("last_seen_version"),
 	createdAt: timestamp("created_at").notNull().defaultNow(),
 	updatedAt: timestamp("updated_at").notNull().defaultNow(),
 });

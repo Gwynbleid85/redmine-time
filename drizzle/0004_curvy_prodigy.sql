@@ -1,0 +1,1 @@
+ALTER TABLE "redmine_time"."user" ADD COLUMN "last_seen_version" text;
