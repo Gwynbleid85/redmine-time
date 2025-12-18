@@ -49,7 +49,9 @@ export function ChangelogDialog({
 						remarkPlugins={[remarkGfm]}
 						components={{
 							h3: ({ children }) => (
-								<h3 className="text-base font-semibold mt-4 mb-2">{children}</h3>
+								<h3 className="text-base font-semibold mt-4 mb-2">
+									{children}
+								</h3>
 							),
 							ul: ({ children }) => (
 								<ul className="list-disc list-inside space-y-1 text-sm">

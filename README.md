@@ -1,310 +1,184 @@
-Welcome to your new TanStack app! 
+<p align="center">
+  <img src="docs/github-header-banner.png" alt="Redmine Time Banner" width="100%" />
+</p>
 
-# Getting Started
+<p align="center">
+  <strong>Intuitive time entry management for Redmine</strong>
+</p>
 
-To run this application:
+<p align="center">
+  <a href="#features">Features</a> •
+  <a href="#tech-stack">Tech Stack</a> •
+  <a href="#getting-started">Getting Started</a> •
+  <a href="#docker-deployment">Docker</a> •
+  <a href="#development">Development</a> •
+  <a href="#authors">Authors</a> •
+  <a href="#license">License</a>
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/React-19-61DAFB?style=flat&logo=react" alt="React 19" />
+  <img src="https://img.shields.io/badge/TanStack-Start-FF4154?style=flat" alt="TanStack Start" />
+  <img src="https://img.shields.io/badge/TypeScript-5.7-3178C6?style=flat&logo=typescript" alt="TypeScript" />
+  <img src="https://img.shields.io/badge/Tailwind-4.0-38B2AC?style=flat&logo=tailwindcss" alt="Tailwind CSS" />
+  <img src="https://img.shields.io/badge/Bun-Runtime-000000?style=flat&logo=bun" alt="Bun" />
+</p>
+
+---
+
+## Features
+
+- **Calendar View** — Monthly overview of all time entries with easy navigation
+- **Daily View** — Detailed breakdown of time entries for any selected day
+- **Time Entry Management** — Create, edit, delete, and duplicate time entries
+- **Time Placeholders** — Track vacation, sick days, doctor visits, and holidays
+- **Custom Issues** — Quick access to frequently used issues
+- **Redmine Integration** — Seamless sync with your Redmine instance
+- **Changelog System** — Automatic notifications for new version features
+- **Responsive Design** — Works great on desktop and mobile
+
+## Tech Stack
+
+| Category          | Technology                                                         |
+| ----------------- | ------------------------------------------------------------------ |
+| **Framework**     | [TanStack Start](https://tanstack.com/start) (SSR-enabled React)   |
+| **Runtime**       | [Bun](https://bun.sh)                                              |
+| **UI**            | [React 19](https://react.dev) + [shadcn/ui](https://ui.shadcn.com) |
+| **Styling**       | [Tailwind CSS v4](https://tailwindcss.com)                         |
+| **Data Fetching** | [TanStack Query](https://tanstack.com/query)                       |
+| **Routing**       | [TanStack Router](https://tanstack.com/router) (file-based)        |
+| **Database**      | PostgreSQL with [Drizzle ORM](https://orm.drizzle.team)            |
+| **Auth**          | [Better Auth](https://better-auth.com)                             |
+| **Linting**       | [Biome](https://biomejs.dev)                                       |
+
+## Getting Started
+
+### Prerequisites
+
+- [Bun](https://bun.sh) (v1.0 or later)
+- [PostgreSQL](https://www.postgresql.org/) database
+- [Redmine](https://www.redmine.org/) instance with API access
+
+### Environment Variables
+
+Create a `.env` file in the project root:
+
+```env
+# Database
+DATABASE_URL=postgresql://user:password@localhost:5432/redmine_time
+
+# Redmine
+REDMINE_URL=https://your-redmine-instance.com
+REDMINE_API_KEY=your-api-key
+
+# Auth
+BETTER_AUTH_SECRET=your-secret-key
+BETTER_AUTH_URL=http://localhost:3000
+```
+
+### Installation
 
 ```bash
+# Clone the repository
+git clone https://github.com/your-username/redmine-time.git
+cd redmine-time
+
+# Install dependencies
 bun install
-bun --bun run start
+
+# Run database migrations
+bun run db:migrate
+
+# Start development server
+bun --bun run dev
 ```
 
-# Building For Production
+The app will be available at `http://localhost:3000`.
 
-To build this application for production:
+## Docker Deployment
+
+Build and run with Docker:
 
 ```bash
-bun --bun run build
+# Build the image
+docker build -t redmine-time .
+
+# Run the container
+docker run -p 3000:3000 \
+  -e DATABASE_URL=your-database-url \
+  -e REDMINE_URL=your-redmine-url \
+  -e REDMINE_API_KEY=your-api-key \
+  -e BETTER_AUTH_SECRET=your-secret \
+  redmine-time
 ```
 
-## Testing
-
-This project uses [Vitest](https://vitest.dev/) for testing. You can run the tests with:
+Or use the provided build script:
 
 ```bash
-bun --bun run test
+./build_and_push.sh 1.0.0
 ```
 
-## Styling
+## Development
 
-This project uses [Tailwind CSS](https://tailwindcss.com/) for styling.
-
-
-## Linting & Formatting
-
-This project uses [Biome](https://biomejs.dev/) for linting and formatting. The following scripts are available:
-
+### Available Commands
 
 ```bash
-bun --bun run lint
-bun --bun run format
-bun --bun run check
+bun --bun run dev      # Start development server
+bun --bun run build    # Production build
+bun --bun run check    # Run linter + type checker
+bun --bun run test     # Run tests
+bun run db:studio      # Open Drizzle Studio
 ```
 
+### Project Structure
 
-## Shadcn
+```
+src/
+├── components/        # React components
+│   ├── ui/           # shadcn/ui components
+│   └── features/     # Feature-specific components
+├── lib/              # Utilities and helpers
+│   ├── db/           # Database schema and queries
+│   └── server/       # Server functions
+├── routes/           # File-based routes
+└── styles/           # Global styles
+```
 
-Add components using the latest version of [Shadcn](https://ui.shadcn.com/).
+### Adding shadcn Components
 
 ```bash
 pnpx shadcn@latest add button
 ```
 
-
-
-## Routing
-This project uses [TanStack Router](https://tanstack.com/router). The initial setup is a file based router. Which means that the routes are managed as files in `src/routes`.
-
-### Adding A Route
-
-To add a new route to your application just add another a new file in the `./src/routes` directory.
-
-TanStack will automatically generate the content of the route file for you.
-
-Now that you have two routes you can use a `Link` component to navigate between them.
-
-### Adding Links
-
-To use SPA (Single Page Application) navigation you will need to import the `Link` component from `@tanstack/react-router`.
-
-```tsx
-import { Link } from "@tanstack/react-router";
-```
-
-Then anywhere in your JSX you can use it like so:
-
-```tsx
-<Link to="/about">About</Link>
-```
-
-This will create a link that will navigate to the `/about` route.
-
-More information on the `Link` component can be found in the [Link documentation](https://tanstack.com/router/v1/docs/framework/react/api/router/linkComponent).
-
-### Using A Layout
-
-In the File Based Routing setup the layout is located in `src/routes/__root.tsx`. Anything you add to the root route will appear in all the routes. The route content will appear in the JSX where you use the `<Outlet />` component.
-
-Here is an example layout that includes a header:
-
-```tsx
-import { Outlet, createRootRoute } from '@tanstack/react-router'
-import { TanStackRouterDevtools } from '@tanstack/react-router-devtools'
-
-import { Link } from "@tanstack/react-router";
-
-export const Route = createRootRoute({
-  component: () => (
-    <>
-      <header>
-        <nav>
-          <Link to="/">Home</Link>
-          <Link to="/about">About</Link>
-        </nav>
-      </header>
-      <Outlet />
-      <TanStackRouterDevtools />
-    </>
-  ),
-})
-```
-
-The `<TanStackRouterDevtools />` component is not required so you can remove it if you don't want it in your layout.
-
-More information on layouts can be found in the [Layouts documentation](https://tanstack.com/router/latest/docs/framework/react/guide/routing-concepts#layouts).
-
-
-## Data Fetching
-
-There are multiple ways to fetch data in your application. You can use TanStack Query to fetch data from a server. But you can also use the `loader` functionality built into TanStack Router to load the data for a route before it's rendered.
-
-For example:
-
-```tsx
-const peopleRoute = createRoute({
-  getParentRoute: () => rootRoute,
-  path: "/people",
-  loader: async () => {
-    const response = await fetch("https://swapi.dev/api/people");
-    return response.json() as Promise<{
-      results: {
-        name: string;
-      }[];
-    }>;
-  },
-  component: () => {
-    const data = peopleRoute.useLoaderData();
-    return (
-      <ul>
-        {data.results.map((person) => (
-          <li key={person.name}>{person.name}</li>
-        ))}
-      </ul>
-    );
-  },
-});
-```
-
-Loaders simplify your data fetching logic dramatically. Check out more information in the [Loader documentation](https://tanstack.com/router/latest/docs/framework/react/guide/data-loading#loader-parameters).
-
-### React-Query
-
-React-Query is an excellent addition or alternative to route loading and integrating it into you application is a breeze.
-
-First add your dependencies:
-
-```bash
-bun install @tanstack/react-query @tanstack/react-query-devtools
-```
-
-Next we'll need to create a query client and provider. We recommend putting those in `main.tsx`.
-
-```tsx
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-
-// ...
-
-const queryClient = new QueryClient();
-
-// ...
-
-if (!rootElement.innerHTML) {
-  const root = ReactDOM.createRoot(rootElement);
-
-  root.render(
-    <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router} />
-    </QueryClientProvider>
-  );
-}
-```
-
-You can also add TanStack Query Devtools to the root route (optional).
-
-```tsx
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-
-const rootRoute = createRootRoute({
-  component: () => (
-    <>
-      <Outlet />
-      <ReactQueryDevtools buttonPosition="top-right" />
-      <TanStackRouterDevtools />
-    </>
-  ),
-});
-```
-
-Now you can use `useQuery` to fetch your data.
-
-```tsx
-import { useQuery } from "@tanstack/react-query";
-
-import "./App.css";
-
-function App() {
-  const { data } = useQuery({
-    queryKey: ["people"],
-    queryFn: () =>
-      fetch("https://swapi.dev/api/people")
-        .then((res) => res.json())
-        .then((data) => data.results as { name: string }[]),
-    initialData: [],
-  });
-
-  return (
-    <div>
-      <ul>
-        {data.map((person) => (
-          <li key={person.name}>{person.name}</li>
-        ))}
-      </ul>
-    </div>
-  );
-}
-
-export default App;
-```
-
-You can find out everything you need to know on how to use React-Query in the [React-Query documentation](https://tanstack.com/query/latest/docs/framework/react/overview).
-
-## State Management
-
-Another common requirement for React applications is state management. There are many options for state management in React. TanStack Store provides a great starting point for your project.
-
-First you need to add TanStack Store as a dependency:
-
-```bash
-bun install @tanstack/store
-```
-
-Now let's create a simple counter in the `src/App.tsx` file as a demonstration.
-
-```tsx
-import { useStore } from "@tanstack/react-store";
-import { Store } from "@tanstack/store";
-import "./App.css";
-
-const countStore = new Store(0);
-
-function App() {
-  const count = useStore(countStore);
-  return (
-    <div>
-      <button onClick={() => countStore.setState((n) => n + 1)}>
-        Increment - {count}
-      </button>
-    </div>
-  );
-}
-
-export default App;
-```
-
-One of the many nice features of TanStack Store is the ability to derive state from other state. That derived state will update when the base state updates.
-
-Let's check this out by doubling the count using derived state.
-
-```tsx
-import { useStore } from "@tanstack/react-store";
-import { Store, Derived } from "@tanstack/store";
-import "./App.css";
-
-const countStore = new Store(0);
-
-const doubledStore = new Derived({
-  fn: () => countStore.state * 2,
-  deps: [countStore],
-});
-doubledStore.mount();
-
-function App() {
-  const count = useStore(countStore);
-  const doubledCount = useStore(doubledStore);
-
-  return (
-    <div>
-      <button onClick={() => countStore.setState((n) => n + 1)}>
-        Increment - {count}
-      </button>
-      <div>Doubled - {doubledCount}</div>
-    </div>
-  );
-}
-
-export default App;
-```
-
-We use the `Derived` class to create a new store that is derived from another store. The `Derived` class has a `mount` method that will start the derived store updating.
-
-Once we've created the derived store we can use it in the `App` component just like we would any other store using the `useStore` hook.
-
-You can find out everything you need to know on how to use TanStack Store in the [TanStack Store documentation](https://tanstack.com/store/latest).
-
-# Demo files
-
-Files prefixed with `demo` can be safely deleted. They are there to provide a starting point for you to play around with the features you've installed.
-
-# Learn More
-
-You can learn more about all of the offerings from TanStack in the [TanStack documentation](https://tanstack.com).
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## Authors
+
+<table>
+  <tr>
+    <td align="center">
+      <a href="https://github.com/Gwynbleid85">
+        <img src="https://github.com/Gwynbleid85.png" width="80px;" alt="Milos"/><br />
+        <sub><b>Gwynbleid85</b></sub>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/MartinBspheroid">
+        <img src="https://github.com/MartinBspheroid.png" width="80px;" alt="Martin"/><br />
+        <sub><b>MartinBspheroid</b></sub>
+      </a>
+    </td>
+  </tr>
+</table>
+
+## License
+
+This project is private and proprietary.
+
+---
+
+<p align="center">
+  Made with ❤️ for better time tracking
+</p>

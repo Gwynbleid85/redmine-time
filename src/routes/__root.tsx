@@ -6,10 +6,8 @@ import {
 	Scripts,
 } from "@tanstack/react-router";
 import { checkAuth } from "@/lib/auth-utils";
-import {
-	ChangelogWrapper,
-	ChangelogVersionLink,
-} from "@/components/features/changelog";
+import { ChangelogWrapper } from "@/components/features/changelog";
+import { Footer } from "@/components/layout";
 import appCss from "../styles.css?url";
 
 interface MyRouterContext {
@@ -63,19 +61,10 @@ function RootComponent() {
 					<main className="flex-1">
 						<Outlet />
 					</main>
-					<footer className="bg-muted text-muted-foreground py-3 px-4 text-center text-sm border-t">
-						<div className="flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-4">
-							<span>&copy; {new Date().getFullYear()} Redmine Time</span>
-							<span className="hidden sm:inline">|</span>
-							<span>Martin Blasko & Milos Hegr</span>
-							{auth.isAuthenticated && (
-								<>
-									<span className="hidden sm:inline">|</span>
-									<ChangelogVersionLink onClick={openHistory} />
-								</>
-							)}
-						</div>
-					</footer>
+					<Footer
+						isAuthenticated={auth.isAuthenticated}
+						onVersionClick={openHistory}
+					/>
 				</div>
 			)}
 		</ChangelogWrapper>
