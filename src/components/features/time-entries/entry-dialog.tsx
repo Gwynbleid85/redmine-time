@@ -185,9 +185,7 @@ export function EntryDialog({
 	// Placeholder state
 	const [placeholderForm, setPlaceholderForm] = useState<PlaceholderFormData>({
 		type: "Vacation",
-		date:
-			selectedDate?.toISOString().split("T")[0] ||
-			new Date().toISOString().split("T")[0],
+		date: formatDateForRedmine(selectedDate || new Date()),
 		duration: formatDuration(PLACEHOLDER_DEFAULTS.Vacation),
 		note: "",
 	});
@@ -220,7 +218,7 @@ export function EntryDialog({
 			if (placeholder) {
 				setPlaceholderForm({
 					type: placeholder.type,
-					date: placeholder.date.toISOString().split("T")[0],
+					date: formatDateForRedmine(placeholder.date),
 					duration: formatDuration(placeholder.duration),
 					note: placeholder.note || "",
 				});
@@ -228,9 +226,7 @@ export function EntryDialog({
 				const defaultType: PlaceholderType = "Vacation";
 				setPlaceholderForm({
 					type: defaultType,
-					date: selectedDate
-						? selectedDate.toISOString().split("T")[0]
-						: new Date().toISOString().split("T")[0],
+					date: formatDateForRedmine(selectedDate || new Date()),
 					duration: formatDuration(PLACEHOLDER_DEFAULTS[defaultType]),
 					note: "",
 				});
