@@ -1,4 +1,5 @@
 {
+	"cSpell.words": ["redmine", "tanstack", "drizzle"],
 	"files.watcherExclude": {
 		"**/routeTree.gen.ts": true
 	},

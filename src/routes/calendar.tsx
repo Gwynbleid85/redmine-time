@@ -8,6 +8,7 @@ import { CalendarHeader } from "@/components/features/calendar/calendar-header";
 import { CalendarLoading } from "@/components/features/calendar/calendar-loading";
 import { CalendarSummary } from "@/components/features/calendar/calendar-summary";
 import { PageHeader } from "@/components/features/layout/page-header";
+import { PlaceholderDetailDialog } from "@/components/features/placeholders/placeholder-detail-dialog";
 import { EntryDialog } from "@/components/features/time-entries/entry-dialog";
 import { TaskDetailDialog } from "@/components/features/time-entries/task-detail-dialog";
 import { useApiKeyManagement } from "@/hooks/useApiKeyManagement";
@@ -38,6 +39,12 @@ function CalendarPage() {
 	const [selectedTask, setSelectedTask] = useState<Task | null>(null);
 	const [isDetailDialogOpen, setIsDetailDialogOpen] = useState(false);
 	const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+
+	// Dialog state for placeholders
+	const [selectedPlaceholder, setSelectedPlaceholder] =
+		useState<TimePlaceholder | null>(null);
+	const [isPlaceholderDetailDialogOpen, setIsPlaceholderDetailDialogOpen] =
+		useState(false);
 
 	// Unified entry dialog state
 	const [isEntryDialogOpen, setIsEntryDialogOpen] = useState(false);
@@ -195,6 +202,11 @@ function CalendarPage() {
 	});
 
 	// Placeholder handlers
+	const handlePlaceholderClick = (placeholder: TimePlaceholder) => {
+		setSelectedPlaceholder(placeholder);
+		setIsPlaceholderDetailDialogOpen(true);
+	};
+
 	const handlePlaceholderEdit = (placeholder: TimePlaceholder) => {
 		setEntryToEdit(placeholder);
 		setIsEntryDialogOpen(true);
@@ -267,7 +279,14 @@ function CalendarPage() {
 				{error && <CalendarError error={error} />}
 
 				{/* Summary */}
-				{!isLoading && !error && <CalendarSummary tasks={currentMonthTasks} />}
+				{!isLoading && !error && (
+					<CalendarSummary
+						tasks={currentMonthTasks}
+						totalHours={totalMonthHours}
+						redmineHours={redmineMonthHours}
+						placeholderHours={placeholderMonthHours}
+					/>
+				)}
 
 				{/* Calendar Grid */}
 				{!isLoading && !error && (
@@ -278,6 +297,7 @@ function CalendarPage() {
 						onTaskEdit={handleTaskEdit}
 						onTaskDuplicate={handleTaskDuplicate}
 						onTaskDelete={handleTaskDelete}
+						onPlaceholderClick={handlePlaceholderClick}
 						onPlaceholderEdit={handlePlaceholderEdit}
 						onPlaceholderDelete={handlePlaceholderDelete}
 						onDateClick={handleDateClick}
@@ -293,6 +313,17 @@ function CalendarPage() {
 						onEdit={() => handleTaskEdit(selectedTask)}
 						onDuplicate={() => handleTaskDuplicate(selectedTask)}
 						onDelete={() => handleTaskDelete(selectedTask.id)}
+					/>
+				)}
+
+				{/* Placeholder Detail Dialog */}
+				{selectedPlaceholder && (
+					<PlaceholderDetailDialog
+						placeholder={selectedPlaceholder}
+						open={isPlaceholderDetailDialogOpen}
+						onOpenChange={setIsPlaceholderDetailDialogOpen}
+						onEdit={() => handlePlaceholderEdit(selectedPlaceholder)}
+						onDelete={() => handlePlaceholderDelete(selectedPlaceholder.id)}
 					/>
 				)}
 

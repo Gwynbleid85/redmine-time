@@ -14,6 +14,7 @@ import { cn, formatDuration } from "@/lib/utils";
 
 interface PlaceholderItemProps {
 	placeholder: TimePlaceholder;
+	onClick?: () => void;
 	onEdit: () => void;
 	onDelete: () => void;
 }
@@ -26,11 +27,15 @@ const placeholderTypeColors = {
 
 export function PlaceholderItem({
 	placeholder,
+	onClick,
 	onEdit,
 	onDelete,
 }: PlaceholderItemProps) {
 	return (
-		<Card className="group relative p-3 hover:shadow-md transition-shadow border-dashed border-2">
+		<Card
+			className="group relative p-3 hover:shadow-md transition-shadow border-dashed border-2 cursor-pointer"
+			onClick={onClick}
+		>
 			<div>
 				<div className="flex items-start justify-between gap-2 mb-2">
 					<div className="flex items-center gap-2">
@@ -54,17 +59,26 @@ export function PlaceholderItem({
 								variant="ghost"
 								size="icon"
 								className="h-6 w-6 opacity-0 group-hover:opacity-100 transition-opacity"
+								onClick={(e) => e.stopPropagation()}
 							>
 								<MoreVertical className="h-3 w-3" />
 							</Button>
 						</DropdownMenuTrigger>
 						<DropdownMenuContent align="end">
-							<DropdownMenuItem onClick={onEdit}>
+							<DropdownMenuItem
+								onClick={(e) => {
+									e.stopPropagation();
+									onEdit();
+								}}
+							>
 								<Edit className="h-4 w-4 mr-2" />
 								Edit
 							</DropdownMenuItem>
 							<DropdownMenuItem
-								onClick={onDelete}
+								onClick={(e) => {
+									e.stopPropagation();
+									onDelete();
+								}}
 								className="text-destructive focus:text-destructive"
 							>
 								<Trash2 className="h-4 w-4 mr-2" />

@@ -16,6 +16,7 @@ interface CalendarDayProps {
 	onTaskEdit: (task: Task) => void;
 	onTaskDuplicate: (task: Task) => void;
 	onTaskDelete: (taskId: string) => void;
+	onPlaceholderClick: (placeholder: TimePlaceholder) => void;
 	onPlaceholderEdit: (placeholder: TimePlaceholder) => void;
 	onPlaceholderDelete: (placeholderId: string) => void;
 	onDateClick?: (date: Date) => void;
@@ -34,6 +35,7 @@ export function CalendarDay({
 	onTaskEdit,
 	onTaskDuplicate,
 	onTaskDelete,
+	onPlaceholderClick,
 	onPlaceholderEdit,
 	onPlaceholderDelete,
 	onDateClick,
@@ -120,6 +122,7 @@ export function CalendarDay({
 							<PlaceholderItem
 								key={entry.id}
 								placeholder={entry}
+								onClick={() => onPlaceholderClick(entry)}
 								onEdit={() => onPlaceholderEdit(entry)}
 								onDelete={() => onPlaceholderDelete(entry.id)}
 							/>

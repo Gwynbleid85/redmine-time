@@ -16,6 +16,7 @@ interface CalendarGridProps {
 	onTaskEdit: (task: Task) => void;
 	onTaskDuplicate: (task: Task) => void;
 	onTaskDelete: (taskId: string) => void;
+	onPlaceholderClick: (placeholder: TimePlaceholder) => void;
 	onPlaceholderEdit: (placeholder: TimePlaceholder) => void;
 	onPlaceholderDelete: (placeholderId: string) => void;
 	onDateClick?: (date: Date) => void;
@@ -28,6 +29,7 @@ export function CalendarGrid({
 	onTaskEdit,
 	onTaskDuplicate,
 	onTaskDelete,
+	onPlaceholderClick,
 	onPlaceholderEdit,
 	onPlaceholderDelete,
 	onDateClick,
@@ -80,6 +82,7 @@ export function CalendarGrid({
 							onTaskEdit={onTaskEdit}
 							onTaskDuplicate={onTaskDuplicate}
 							onTaskDelete={onTaskDelete}
+							onPlaceholderClick={onPlaceholderClick}
 							onPlaceholderEdit={onPlaceholderEdit}
 							onPlaceholderDelete={onPlaceholderDelete}
 							onDateClick={onDateClick}
