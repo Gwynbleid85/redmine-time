@@ -265,12 +265,6 @@ function CalendarPage() {
 						setEntryDialogTab("timeEntry");
 						setIsEntryDialogOpen(true);
 					}}
-					onAddPlaceholder={() => {
-						setSelectedDate(new Date());
-						setEntryToEdit(null);
-						setEntryDialogTab("placeholder");
-						setIsEntryDialogOpen(true);
-					}}
 				/>
 				{/* Loading state */}
 				{isLoading && <CalendarLoading />}

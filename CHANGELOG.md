@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.0.0] - 2025-12-17
 
 ### Added
+
 - Initial release of Redmine Time application
 - Calendar view for time entries with monthly navigation
 - Daily view for time entries with detailed breakdown
@@ -17,4 +18,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - User authentication with Better Auth
 - Redmine API integration for seamless time tracking
 - Responsive design with Tailwind CSS
-- Dark mode support
+- Changelog feature with automatic popup for new versions
+- Version display in footer (clickable to view full changelog history)
+- Per-user tracking of seen changelog versions

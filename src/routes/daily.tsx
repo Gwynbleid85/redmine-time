@@ -271,11 +271,6 @@ function DailyPage() {
 						setEntryDialogTab("timeEntry");
 						setIsEntryDialogOpen(true);
 					}}
-					onAddPlaceholder={() => {
-						setEntryToEdit(null);
-						setEntryDialogTab("placeholder");
-						setIsEntryDialogOpen(true);
-					}}
 					onDateSelect={handleDateSelect}
 				/>
 				{/* Loading state */}

@@ -30,7 +30,9 @@ export const CHANGELOG_ENTRIES: ChangelogEntry[] = [
 - User authentication with Better Auth
 - Redmine API integration for seamless time tracking
 - Responsive design with Tailwind CSS
-- Dark mode support`,
+- Changelog feature with automatic popup for new versions
+- Version display in footer (clickable to view full changelog history)
+- Per-user tracking of seen changelog versions`,
 	},
 ];
 

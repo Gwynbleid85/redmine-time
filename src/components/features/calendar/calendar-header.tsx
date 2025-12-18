@@ -1,4 +1,4 @@
-import { ChevronLeft, ChevronRight, Plus, PlusCircle } from "lucide-react";
+import { ChevronLeft, ChevronRight, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
 	Tooltip,
@@ -17,7 +17,6 @@ interface CalendarHeaderProps {
 	onNextWeek: () => void;
 	onToday: () => void;
 	onAddTask: () => void;
-	onAddPlaceholder: () => void;
 }
 
 export function CalendarHeader({
@@ -29,7 +28,6 @@ export function CalendarHeader({
 	onNextWeek,
 	onToday,
 	onAddTask,
-	onAddPlaceholder,
 }: CalendarHeaderProps) {
 	const monthYear = currentDate.toLocaleDateString("en-US", {
 		month: "long",
@@ -106,15 +104,6 @@ export function CalendarHeader({
 					<Button onClick={onAddTask} size="sm" className="gap-2">
 						<Plus className="h-4 w-4" />
 						Add Task
-					</Button>
-					<Button
-						onClick={onAddPlaceholder}
-						size="sm"
-						variant="outline"
-						className="gap-2"
-					>
-						<PlusCircle className="h-4 w-4" />
-						Add Placeholder
 					</Button>
 				</div>
 			</div>

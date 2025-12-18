@@ -1,10 +1,4 @@
-import {
-	CalendarIcon,
-	ChevronLeft,
-	ChevronRight,
-	Plus,
-	PlusCircle,
-} from "lucide-react";
+import { CalendarIcon, ChevronLeft, ChevronRight, Plus } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
@@ -30,7 +24,6 @@ interface DailyHeaderProps {
 	onNextDay: () => void;
 	onToday: () => void;
 	onAddTask: () => void;
-	onAddPlaceholder: () => void;
 	onDateSelect: (date: Date) => void;
 }
 
@@ -43,7 +36,6 @@ export function DailyHeader({
 	onNextDay,
 	onToday,
 	onAddTask,
-	onAddPlaceholder,
 	onDateSelect,
 }: DailyHeaderProps) {
 	const [calendarOpen, setCalendarOpen] = useState(false);
@@ -165,15 +157,6 @@ export function DailyHeader({
 					<Button onClick={onAddTask} size="sm" className="gap-2">
 						<Plus className="h-4 w-4" />
 						Add Task
-					</Button>
-					<Button
-						onClick={onAddPlaceholder}
-						size="sm"
-						variant="outline"
-						className="gap-2"
-					>
-						<PlusCircle className="h-4 w-4" />
-						Add Placeholder
 					</Button>
 				</div>
 			</div>
