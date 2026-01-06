@@ -27,6 +27,8 @@ const placeholderTypeColors = {
 	Vacation:
 		"bg-cyan-500/10 text-cyan-700 dark:text-cyan-400 border-cyan-500/20",
 	Holiday: "bg-pink-500/10 text-pink-700 dark:text-pink-400 border-pink-500/20",
+	Sickday:
+		"bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border-emerald-500/20",
 };
 
 export function PlaceholderDetailDialog({

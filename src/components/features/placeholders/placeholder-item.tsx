@@ -23,6 +23,7 @@ const placeholderTypeColors = {
 	Doctor: "bg-orange-500",
 	Vacation: "bg-cyan-500",
 	Holiday: "bg-pink-500",
+	Sickday: "bg-emerald-500",
 };
 
 export function PlaceholderItem({

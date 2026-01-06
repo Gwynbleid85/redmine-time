@@ -567,6 +567,7 @@ export function EntryDialog({
 										<SelectItem value="Doctor">Doctor</SelectItem>
 										<SelectItem value="Vacation">Vacation</SelectItem>
 										<SelectItem value="Holiday">Holiday</SelectItem>
+										<SelectItem value="Sickday">Sickday</SelectItem>
 									</SelectContent>
 								</Select>
 							</div>

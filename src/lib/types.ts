@@ -1,6 +1,6 @@
 export type TaskType = "Epic" | "Task" | "Bug" | "Feature";
 
-export type PlaceholderType = "Doctor" | "Vacation" | "Holiday";
+export type PlaceholderType = "Doctor" | "Vacation" | "Holiday" | "Sickday";
 
 export interface Task {
 	id: string;
@@ -45,4 +45,5 @@ export const PLACEHOLDER_DEFAULTS: Record<PlaceholderType, number> = {
 	Doctor: 4,
 	Vacation: 8,
 	Holiday: 8,
+	Sickday: 8,
 };
