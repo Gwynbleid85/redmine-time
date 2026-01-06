@@ -39,6 +39,8 @@ Generate a changelog entry for version: $ARGUMENTS
 
 7. Show the user what was added and ask for confirmation before saving
 
+8. After you saved the changelog, update the `package.json` version to match the new version
+
 ## Important
 - Use today's date in YYYY-MM-DD format
 - Only include categories that have actual changes

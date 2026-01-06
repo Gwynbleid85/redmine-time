@@ -4,7 +4,7 @@
  */
 
 // Version is defined at build time from package.json
-export const APP_VERSION = "1.0.1";
+export const APP_VERSION = "1.0.2";
 
 export interface ChangelogEntry {
 	version: string;
@@ -17,6 +17,13 @@ export interface ChangelogEntry {
  * Update this array when releasing new versions
  */
 export const CHANGELOG_ENTRIES: ChangelogEntry[] = [
+	{
+		version: "1.0.2",
+		date: "2026-01-06",
+		content: `### Added
+- Dark mode support with light/dark/system theme options
+- New "Sickday" placeholder type for tracking sick leave days`,
+	},
 	{
 		version: "1.0.1",
 		date: "2025-12-18",
