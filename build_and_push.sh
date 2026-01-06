@@ -1,11 +1,14 @@
 #!/bin/bash
 
-VERSION=$1
+# Get version from package.json
+if command -v jq &> /dev/null; then
+    VERSION=$(jq -r '.version' package.json)
+else
+    VERSION=$(grep -o '"version": "[^"]*"' package.json | cut -d'"' -f4)
+fi
 
 if [ -z "$VERSION" ]; then
-    echo "Error: Version parameter required"
-    echo "Usage: ./build_and_push.sh <version>"
-    echo "Example: ./build_and_push.sh 1.2.0"
+    echo "Error: Could not read version from package.json"
     exit 1
 fi
 
@@ -24,15 +27,8 @@ fi
 
 echo "Building version: $VERSION"
 
-# Update package.json version
-if command -v jq &> /dev/null; then
-    jq ".version = \"$VERSION\"" package.json > package.json.tmp && mv package.json.tmp package.json
-else
-    sed -i '' "s/\"version\": \"[^\"]*\"/\"version\": \"$VERSION\"/" package.json
-fi
-
 # Commit version bump
-git add package.json CHANGELOG.md
+git add package.json CHANGELOG.md src/lib/changelog-data.ts
 git commit -m "chore: release v$VERSION"
 
 echo "Building Docker image..."
