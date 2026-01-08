@@ -1,10 +1,10 @@
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
+import { APP_VERSION } from "@/lib/changelog-data";
 import {
 	getChangelogStatusFn,
 	markChangelogSeenFn,
 } from "@/lib/server/changelog";
-import { APP_VERSION } from "@/lib/changelog-data";
 
 /**
  * Hook for managing changelog state

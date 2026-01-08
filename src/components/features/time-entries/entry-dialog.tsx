@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { Check, ChevronsUpDown } from "lucide-react";
 import type React from "react";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useId, useMemo, useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -103,12 +103,18 @@ export function EntryDialog({
 	placeholder,
 	onSavePlaceholder,
 }: EntryDialogProps) {
+	// Generate unique IDs for form fields
+	const typeId = useId();
+	const dateId = useId();
+	const durationId = useId();
+	const noteId = useId();
+
 	// Determine which tab should be active based on what we're editing
-	const getActiveTab = (): EntryType => {
+	const getActiveTab = useCallback((): EntryType => {
 		if (placeholder) return "placeholder";
 		if (task) return "timeEntry";
 		return initialTab;
-	};
+	}, [placeholder, task, initialTab]);
 
 	const [activeTab, setActiveTab] = useState<EntryType>(getActiveTab());
 
@@ -117,7 +123,7 @@ export function EntryDialog({
 		if (open) {
 			setActiveTab(getActiveTab());
 		}
-	}, [open, task, placeholder, initialTab]);
+	}, [open, getActiveTab]);
 
 	// Fetch issues from Redmine for time entry tab
 	const { data: apiIssues, isLoading: isLoadingIssues } = useQuery({
@@ -555,12 +561,12 @@ export function EntryDialog({
 						<div className="space-y-4 py-4">
 							{/* Type Selection */}
 							<div className="space-y-2">
-								<Label htmlFor="type">Type</Label>
+								<Label htmlFor={typeId}>Type</Label>
 								<Select
 									value={placeholderForm.type}
 									onValueChange={handlePlaceholderTypeChange}
 								>
-									<SelectTrigger id="type">
+									<SelectTrigger id={typeId}>
 										<SelectValue placeholder="Select type" />
 									</SelectTrigger>
 									<SelectContent>
@@ -574,9 +580,9 @@ export function EntryDialog({
 
 							{/* Date Selection */}
 							<div className="space-y-2">
-								<Label htmlFor="placeholder-date">Date</Label>
+								<Label htmlFor={dateId}>Date</Label>
 								<Input
-									id="placeholder-date"
+									id={dateId}
 									type="date"
 									value={placeholderForm.date}
 									onChange={(e) => {
@@ -600,14 +606,14 @@ export function EntryDialog({
 
 							{/* Duration Input */}
 							<div className="space-y-2">
-								<Label htmlFor="placeholder-duration">
+								<Label htmlFor={durationId}>
 									Duration{" "}
 									<span className="text-xs text-muted-foreground">
 										(HH:MM or decimal hours)
 									</span>
 								</Label>
 								<Input
-									id="placeholder-duration"
+									id={durationId}
 									type="text"
 									value={placeholderForm.duration}
 									onChange={(e) => {
@@ -638,14 +644,14 @@ export function EntryDialog({
 
 							{/* Note (Optional) */}
 							<div className="space-y-2">
-								<Label htmlFor="placeholder-note">
+								<Label htmlFor={noteId}>
 									Note{" "}
 									<span className="text-xs text-muted-foreground">
 										(optional)
 									</span>
 								</Label>
 								<Textarea
-									id="placeholder-note"
+									id={noteId}
 									value={placeholderForm.note}
 									onChange={(e) =>
 										setPlaceholderForm({

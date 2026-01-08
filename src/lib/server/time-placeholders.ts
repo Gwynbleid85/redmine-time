@@ -98,7 +98,12 @@ export const addPlaceholderFn = createServerFn({ method: "POST" })
 			}
 
 			// Validate placeholder type
-			const validTypes: PlaceholderType[] = ["Doctor", "Vacation", "Holiday", "Sickday"];
+			const validTypes: PlaceholderType[] = [
+				"Doctor",
+				"Vacation",
+				"Holiday",
+				"Sickday",
+			];
 			if (!validTypes.includes(data.type)) {
 				return { success: false, error: "Invalid placeholder type" };
 			}
@@ -167,7 +172,12 @@ export const updatePlaceholderFn = createServerFn({ method: "POST" })
 
 			// Validate type if provided
 			if (data.type) {
-				const validTypes: PlaceholderType[] = ["Doctor", "Vacation", "Holiday", "Sickday"];
+				const validTypes: PlaceholderType[] = [
+					"Doctor",
+					"Vacation",
+					"Holiday",
+					"Sickday",
+				];
 				if (!validTypes.includes(data.type)) {
 					return { success: false, error: "Invalid placeholder type" };
 				}

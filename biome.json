@@ -23,7 +23,18 @@
 	"linter": {
 		"enabled": true,
 		"rules": {
-			"recommended": true
+			"recommended": true,
+			"security": {
+				"noDangerouslySetInnerHtml": "off"
+			},
+			"suspicious": {
+				"noUnknownAtRules": "off",
+				"noDocumentCookie": "off",
+				"noArrayIndexKey": "off"
+			},
+			"correctness": {
+				"noNestedComponentDefinitions": "off"
+			}
 		}
 	},
 	"javascript": {

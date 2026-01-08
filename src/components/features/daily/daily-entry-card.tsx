@@ -36,17 +36,10 @@ export function DailyEntryCard({
 }: DailyEntryCardProps) {
 	return (
 		<Card className="group relative hover:shadow-md transition-shadow">
-			<div
+			<button
+				type="button"
 				onClick={onClick}
-				onKeyDown={(e) => {
-					if (e.key === "Enter" || e.key === " ") {
-						e.preventDefault();
-						onClick();
-					}
-				}}
-				role="button"
-				tabIndex={0}
-				className="cursor-pointer p-4"
+				className="cursor-pointer p-4 w-full text-left"
 			>
 				{/* Header: Type badge, Issue ID, and Actions */}
 				<div className="flex items-start justify-between gap-3 mb-3">
@@ -137,7 +130,7 @@ export function DailyEntryCard({
 						</span>
 					</div>
 				</div>
-			</div>
+			</button>
 		</Card>
 	);
 }

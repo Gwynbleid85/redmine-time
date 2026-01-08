@@ -63,7 +63,7 @@ export function CalendarGrid({
 				className="flex flex-col md:grid gap-2"
 				style={{ gridTemplateColumns: "1fr 1fr 1fr 1fr 1fr 0.2fr 0.2fr" }}
 			>
-				{monthDays.map((day, index) => {
+				{monthDays.map((day) => {
 					const dayEntries = getEntriesForDay(entries, day);
 					const totalHours = getTotalHoursForEntries(entries, day);
 					const isHighWorkload = totalHours >= 6;
@@ -71,7 +71,7 @@ export function CalendarGrid({
 
 					return (
 						<CalendarDay
-							key={index}
+							key={day.toISOString()}
 							date={day}
 							dayName={getDayName(day)}
 							entries={dayEntries}

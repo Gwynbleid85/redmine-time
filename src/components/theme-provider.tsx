@@ -1,10 +1,10 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import {
-	type ResolvedTheme,
-	type Theme,
-	THEME_STORAGE_KEY,
 	getStoredTheme,
+	type ResolvedTheme,
 	resolveTheme,
+	THEME_STORAGE_KEY,
+	type Theme,
 } from "@/lib/theme";
 
 interface ThemeContextValue {

@@ -45,5 +45,5 @@ export const PLACEHOLDER_DEFAULTS: Record<PlaceholderType, number> = {
 	Doctor: 4,
 	Vacation: 8,
 	Holiday: 8,
-	Sickday: 8,
+	Sickday: 4.8,
 };
