@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.3] - 2026-01-08
+
+### Changed
+
+- Sickday placeholder default duration changed from 8 hours to 4:48 (4.8 hours)
+- Improved dark mode scrollbar styling for consistent appearance
+
+### Fixed
+
+- Fixed issue where changing the issue ID when editing a time entry was not being saved
+- Fixed activity ID not being updated when editing time entries
+- Various accessibility improvements across UI components
+
 ## [1.0.2] - 2026-01-06
 
 ### Added

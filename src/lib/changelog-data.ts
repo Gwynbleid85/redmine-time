@@ -4,7 +4,7 @@
  */
 
 // Version is defined at build time from package.json
-export const APP_VERSION = "1.0.2";
+export const APP_VERSION = "1.0.3";
 
 export interface ChangelogEntry {
 	version: string;
@@ -17,6 +17,18 @@ export interface ChangelogEntry {
  * Update this array when releasing new versions
  */
 export const CHANGELOG_ENTRIES: ChangelogEntry[] = [
+	{
+		version: "1.0.3",
+		date: "2026-01-08",
+		content: `### Changed
+- Sickday placeholder default duration changed from 8 hours to 4:48 (4.8 hours)
+- Improved dark mode scrollbar styling for consistent appearance
+
+### Fixed
+- Fixed issue where changing the issue ID when editing a time entry was not being saved
+- Fixed activity ID not being updated when editing time entries
+- Various accessibility improvements across UI components`,
+	},
 	{
 		version: "1.0.2",
 		date: "2026-01-06",
