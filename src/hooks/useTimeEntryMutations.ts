@@ -19,9 +19,11 @@ export function useTimeEntryMutations() {
 	const updateMutation = useMutation({
 		mutationFn: (params: {
 			id: number;
+			issueId?: number;
 			hours?: number;
 			comments?: string;
 			spentOn?: string;
+			activityId?: number;
 		}) =>
 			updateTimeEntry({
 				data: params,
@@ -86,7 +88,10 @@ export function useTimeEntryMutations() {
 	});
 
 	// Handler functions
-	const handleUpdate = (task: Partial<Task>, taskToEdit: Task) => {
+	const handleUpdate = (
+		task: Partial<Task> & { issueId?: number; activityId?: number },
+		taskToEdit: Task,
+	) => {
 		const taskId = extractRedmineId(taskToEdit.id);
 		if (taskId === null) {
 			console.error("Invalid task id for update:", taskToEdit.id);
@@ -95,9 +100,11 @@ export function useTimeEntryMutations() {
 
 		updateMutation.mutate({
 			id: taskId,
+			issueId: task.issueId,
 			hours: task.duration,
 			comments: task.description,
 			spentOn: task.date ? task.date.toISOString().split("T")[0] : undefined,
+			activityId: task.activityId,
 		});
 	};
 

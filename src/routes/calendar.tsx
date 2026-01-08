@@ -156,9 +156,11 @@ function CalendarPage() {
 			// Update existing task
 			handleUpdate(
 				{
+					issueId: data.issueId,
 					duration: data.hours,
 					description: data.comments,
 					date: new Date(data.spentOn),
+					activityId: data.activityId,
 				},
 				task,
 			);
