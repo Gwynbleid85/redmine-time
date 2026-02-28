@@ -4,7 +4,7 @@
  */
 
 // Version is defined at build time from package.json
-export const APP_VERSION = "1.0.3";
+export const APP_VERSION = "1.0.4";
 
 export interface ChangelogEntry {
 	version: string;
@@ -17,6 +17,19 @@ export interface ChangelogEntry {
  * Update this array when releasing new versions
  */
 export const CHANGELOG_ENTRIES: ChangelogEntry[] = [
+	{
+		version: "1.0.4",
+		date: "2026-02-28",
+		content: `### Added
+- Custom 404 Not Found page with helpful navigation links
+
+### Changed
+- Increased time entries fetch limit from 100 to 1000 for better data loading
+
+### Fixed
+- Fixed task item click handling to prevent unintended navigation
+- Comments now require a minimum length of 1 character when creating time entries`,
+	},
 	{
 		version: "1.0.3",
 		date: "2026-01-08",

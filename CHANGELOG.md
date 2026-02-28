@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.4] - 2026-02-28
+
+### Added
+
+- Custom 404 Not Found page with helpful navigation links
+
+### Changed
+
+- Increased time entries fetch limit from 100 to 1000 for better data loading
+
+### Fixed
+
+- Fixed task item click handling to prevent unintended navigation
+- Comments now require a minimum length of 1 character when creating time entries
+
 ## [1.0.3] - 2026-01-08
 
 ### Changed
