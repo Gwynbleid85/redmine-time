@@ -43,7 +43,7 @@ const GetTimeEntriesSchema = z.object({
 	projectId: z.string().optional(),
 	from: z.string().optional(), // YYYY-MM-DD
 	to: z.string().optional(), // YYYY-MM-DD
-	limit: z.number().optional().default(100),
+	limit: z.number().optional().default(1000),
 	offset: z.number().optional().default(0),
 });
 
@@ -78,7 +78,7 @@ const GetIssuesByIdsSchema = z.object({
 
 const GetIssuesSchema = z.object({
 	projectId: z.string().optional(),
-	limit: z.number().optional().default(100),
+	limit: z.number().optional().default(1000),
 	offset: z.number().optional().default(0),
 });
 
@@ -393,7 +393,7 @@ export const getIssuesByIds = createServerFn({ method: "POST" })
 
 		// Redmine API supports filtering by issue_id with comma-separated values
 		const issueIdsParam = data.issueIds.join(",");
-		const url = `${baseUrl}/issues.json?issue_id=${issueIdsParam}&limit=100`;
+		const url = `${baseUrl}/issues.json?issue_id=${issueIdsParam}&limit=1000`;
 
 		try {
 			const response = await fetch(url, {
