@@ -53,7 +53,7 @@ export async function ensureMigrations(): Promise<void> {
 
 		try {
 			console.log("🔄 Running database migrations...");
-			await migrate(db, { migrationsFolder });
+			await migrate(db, { migrationsFolder, migrationsSchema: "redmine_time" });
 			console.log("✅ Database migrations completed successfully");
 		} catch (error) {
 			// Handle "already exists" errors gracefully - schema is in sync

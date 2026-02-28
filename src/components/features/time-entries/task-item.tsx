@@ -35,12 +35,11 @@ export function TaskItem({
 	onDelete,
 }: TaskItemProps) {
 	return (
-		<Card className="group relative p-3 hover:shadow-md transition-shadow">
-			<button
-				type="button"
-				onClick={onClick}
-				className="cursor-pointer w-full text-left"
-			>
+		<Card
+			className="group relative p-3 hover:shadow-md transition-shadow cursor-pointer"
+			onClick={onClick}
+		>
+			<div>
 				<div className="flex items-start justify-between gap-2 mb-2">
 					<div className="flex items-center gap-2">
 						{/* Colored dot indicator */}
@@ -110,7 +109,7 @@ export function TaskItem({
 					<span>•</span>
 					<span className="font-semibold">{formatDuration(task.duration)}</span>
 				</div>
-			</button>
+			</div>
 		</Card>
 	);
 }

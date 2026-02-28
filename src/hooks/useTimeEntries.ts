@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+import { useEffect } from "react";
 import { getIssuesByIds, getTimeEntries } from "@/lib/api.redmine";
 import { getCalendarDateRange } from "@/lib/redmine-utils";
 import type { CalendarEntry, Task } from "@/lib/types";
@@ -25,11 +26,20 @@ export function useTimeEntries(currentDate: Date) {
 					userId: "me", // Filter for current user
 					from: dateRange.from,
 					to: dateRange.to,
-					limit: 500, // Fetch more entries to cover full month
+					limit: 1000, // Fetch more entries to cover full month
 				},
 			}),
 		staleTime: 1000 * 60 * 5, // 5 minutes
 	});
+
+	useEffect(() => {
+		if (isLoadingTasks === false && tasksError === null) {
+			console.log(
+				`Fetched ${rawTasks.length} time entries for date range ${dateRange.from} to ${dateRange.to}. Entries: `,
+				rawTasks,
+			);
+		}
+	}, [isLoadingTasks, dateRange.from, dateRange.to, rawTasks, tasksError]);
 
 	// Fetch placeholders using the new hook
 	const {

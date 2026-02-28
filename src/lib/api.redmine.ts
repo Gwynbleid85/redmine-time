@@ -50,7 +50,7 @@ const GetTimeEntriesSchema = z.object({
 const CreateTimeEntrySchema = z.object({
 	issueId: z.number(),
 	hours: z.number().positive(),
-	comments: z.string(),
+	comments: z.string().min(1),
 	spentOn: z.string(), // YYYY-MM-DD
 	activityId: z.number(),
 });
