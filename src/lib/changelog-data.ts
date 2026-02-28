@@ -4,7 +4,7 @@
  */
 
 // Version is defined at build time from package.json
-export const APP_VERSION = "1.0.4";
+export const APP_VERSION = "1.0.5";
 
 export interface ChangelogEntry {
 	version: string;
@@ -17,6 +17,12 @@ export interface ChangelogEntry {
  * Update this array when releasing new versions
  */
 export const CHANGELOG_ENTRIES: ChangelogEntry[] = [
+	{
+		version: "1.0.5",
+		date: "2026-02-28",
+		content: `### Fixed
+- Increased default API limit for time entries and issues to 1000 to ensure complete data retrieval`,
+	},
 	{
 		version: "1.0.4",
 		date: "2026-02-28",
