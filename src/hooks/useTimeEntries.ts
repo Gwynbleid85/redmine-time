@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { getIssuesByIds, getTimeEntries } from "@/lib/api.redmine";
+import { REDMINE_API } from "@/lib/constants";
 import { getCalendarDateRange } from "@/lib/redmine-utils";
 import type { CalendarEntry, Task } from "@/lib/types";
 import { usePlaceholders } from "./usePlaceholders";
@@ -26,7 +27,7 @@ export function useTimeEntries(currentDate: Date) {
 					userId: "me", // Filter for current user
 					from: dateRange.from,
 					to: dateRange.to,
-					limit: 1000, // Fetch more entries to cover full month
+					limit: REDMINE_API.DEFAULT_TIME_ENTRIES_LIMIT,
 				},
 			}),
 		staleTime: 1000 * 60 * 5, // 5 minutes

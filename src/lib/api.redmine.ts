@@ -7,6 +7,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { zodValidator } from "@tanstack/zod-adapter";
 import { z } from "zod";
+import { REDMINE_API } from "@/lib/constants";
 import type {
 	CreateTimeEntryResponse,
 	RedmineIssueDetail,
@@ -43,8 +44,8 @@ const GetTimeEntriesSchema = z.object({
 	projectId: z.string().optional(),
 	from: z.string().optional(), // YYYY-MM-DD
 	to: z.string().optional(), // YYYY-MM-DD
-	limit: z.number().optional().default(1000),
-	offset: z.number().optional().default(0),
+	limit: z.number().optional().default(REDMINE_API.DEFAULT_TIME_ENTRIES_LIMIT),
+	offset: z.number().optional().default(REDMINE_API.DEFAULT_OFFSET),
 });
 
 const CreateTimeEntrySchema = z.object({
@@ -78,8 +79,8 @@ const GetIssuesByIdsSchema = z.object({
 
 const GetIssuesSchema = z.object({
 	projectId: z.string().optional(),
-	limit: z.number().optional().default(1000),
-	offset: z.number().optional().default(0),
+	limit: z.number().optional().default(REDMINE_API.DEFAULT_ISSUES_LIMIT),
+	offset: z.number().optional().default(REDMINE_API.DEFAULT_OFFSET),
 });
 
 /**
@@ -93,48 +94,49 @@ export const getTimeEntries = createServerFn({ method: "GET" })
 		const apiKey = await getApiKeyServerFn();
 		validateRedmineConfig(baseUrl, apiKey);
 
-		// Build query parameters
-		const params = new URLSearchParams();
-		if (data.userId) params.append("user_id", data.userId);
-		if (data.projectId) params.append("project_id", data.projectId);
-		if (data.from) params.append("from", data.from);
-		if (data.to) params.append("to", data.to);
-		params.append("limit", data.limit.toString());
-		params.append("offset", data.offset.toString());
-
-		const url = `${baseUrl}/time_entries.json?${params.toString()}`;
-
 		try {
-			const response = await fetch(url, {
-				method: "GET",
-				headers: {
-					"X-Redmine-API-Key": apiKey,
-					Accept: "application/json",
-				},
-			});
+			const pageSize = Math.max(data.limit, 1);
+			let offset = data.offset;
+			let totalCount = Number.POSITIVE_INFINITY;
+			const allTimeEntries = [];
 
-			if (!response.ok) {
-				throw new Error(
-					`Redmine API error: ${response.status} ${response.statusText}`,
-				);
+			while (offset < totalCount) {
+				const params = new URLSearchParams();
+				if (data.userId) params.append("user_id", data.userId);
+				if (data.projectId) params.append("project_id", data.projectId);
+				if (data.from) params.append("from", data.from);
+				if (data.to) params.append("to", data.to);
+				params.append("limit", pageSize.toString());
+				params.append("offset", offset.toString());
+
+				const url = `${baseUrl}/time_entries.json?${params.toString()}`;
+				const response = await fetch(url, {
+					method: "GET",
+					headers: {
+						"X-Redmine-API-Key": apiKey,
+						Accept: "application/json",
+					},
+				});
+
+				if (!response.ok) {
+					throw new Error(
+						`Redmine API error: ${response.status} ${response.statusText}`,
+					);
+				}
+
+				const json = (await response.json()) as RedmineTimeEntriesResponse;
+				totalCount = json.total_count;
+				allTimeEntries.push(...json.time_entries);
+
+				if (json.time_entries.length === 0) {
+					break;
+				}
+
+				offset += json.time_entries.length;
 			}
 
-			const json = (await response.json()) as RedmineTimeEntriesResponse;
-
-			// console.log(
-			// 	"[Redmine API] Sample entry:",
-			// 	json.time_entries[0]
-			// 		? {
-			// 				id: json.time_entries[0].id,
-			// 				spent_on: json.time_entries[0].spent_on,
-			// 				hours: json.time_entries[0].hours,
-			// 				comments: json.time_entries[0].comments,
-			// 			}
-			// 		: "No entries",
-			// );
-
 			// Transform Redmine time entries to Task objects
-			const tasks = redmineTimeEntriesToTasks(json.time_entries);
+			const tasks = redmineTimeEntriesToTasks(allTimeEntries);
 			// console.log(
 			// 	"[Redmine API] Transformed tasks:",
 			// 	tasks.map((t) => ({
@@ -393,7 +395,7 @@ export const getIssuesByIds = createServerFn({ method: "POST" })
 
 		// Redmine API supports filtering by issue_id with comma-separated values
 		const issueIdsParam = data.issueIds.join(",");
-		const url = `${baseUrl}/issues.json?issue_id=${issueIdsParam}&limit=1000`;
+		const url = `${baseUrl}/issues.json?issue_id=${issueIdsParam}&limit=${REDMINE_API.DEFAULT_ISSUES_LIMIT}`;
 
 		try {
 			const response = await fetch(url, {
