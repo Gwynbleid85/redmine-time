@@ -30,6 +30,7 @@ echo "Building version: $VERSION"
 # Commit version bump
 git add package.json CHANGELOG.md src/lib/changelog-data.ts
 git commit -m "chore: release v$VERSION"
+git push
 
 echo "Building Docker image..."
 docker buildx build --platform linux/amd64 . -t redmine-time:$VERSION
