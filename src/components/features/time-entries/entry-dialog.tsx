@@ -188,6 +188,16 @@ export function EntryDialog({
 	const [issueComboOpen, setIssueComboOpen] = useState(false);
 	const [issueSearchQuery, setIssueSearchQuery] = useState("");
 
+	const resetTimeEntryForm = useCallback(() => {
+		setTimeEntryForm({
+			issueId: null,
+			hours: "01:00",
+			comments: "",
+			spentOn: formatDateForRedmine(selectedDate || new Date()),
+			activityId: 9,
+		});
+	}, [selectedDate]);
+
 	// Placeholder state
 	const [placeholderForm, setPlaceholderForm] = useState<PlaceholderFormData>({
 		type: "Vacation",
@@ -278,15 +288,20 @@ export function EntryDialog({
 		});
 
 		onOpenChange(false);
+		resetTimeEntryForm();
+	};
 
-		// Reset form
-		setTimeEntryForm({
-			issueId: null,
-			hours: "01:00",
-			comments: "",
-			spentOn: formatDateForRedmine(selectedDate || new Date()),
+	const handleDailyQuickAction = () => {
+		onSaveTimeEntry({
+			issueId: 129076,
+			hours: 0.5,
+			comments: "Daily",
+			spentOn: timeEntryForm.spentOn,
 			activityId: 9,
 		});
+
+		onOpenChange(false);
+		resetTimeEntryForm();
 	};
 
 	// Handlers for placeholder
@@ -355,6 +370,19 @@ export function EntryDialog({
 								: "Add a time entry to Redmine or a time placeholder for non-work activities."}
 					</DialogDescription>
 				</DialogHeader>
+
+				{!isEditingTimeEntry && (
+					<div className="flex flex-wrap items-center gap-2 rounded-md border bg-muted/30 p-2">
+						<Button
+							type="button"
+							variant="secondary"
+							size="sm"
+							onClick={handleDailyQuickAction}
+						>
+							Daily quick
+						</Button>
+					</div>
+				)}
 
 				<Tabs
 					value={activeTab}

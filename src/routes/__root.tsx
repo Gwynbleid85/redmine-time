@@ -1,11 +1,13 @@
 import { TanStackDevtools } from "@tanstack/react-devtools";
 import type { QueryClient } from "@tanstack/react-query";
+import { ReactQueryDevtoolsPanel } from "@tanstack/react-query-devtools";
 import {
 	createRootRouteWithContext,
 	HeadContent,
 	Outlet,
 	Scripts,
 } from "@tanstack/react-router";
+import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 import { ChangelogWrapper } from "@/components/features/changelog";
 import { Footer } from "@/components/layout";
 import { ThemeProvider } from "@/components/theme-provider";
@@ -41,6 +43,7 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 
 function RootComponent() {
 	const { auth } = Route.useRouteContext();
+	const isDev = import.meta.env.DEV;
 
 	return (
 		<ThemeProvider>
@@ -57,7 +60,20 @@ function RootComponent() {
 					</div>
 				)}
 			</ChangelogWrapper>
-			<TanStackDevtools />
+			{isDev ? (
+				<TanStackDevtools
+					plugins={[
+						{
+							name: "TanStack Query",
+							render: <ReactQueryDevtoolsPanel />,
+						},
+						{
+							name: "TanStack Router",
+							render: <TanStackRouterDevtoolsPanel />,
+						},
+					]}
+				/>
+			) : null}
 		</ThemeProvider>
 	);
 }
