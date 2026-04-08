@@ -4,7 +4,7 @@
  */
 
 // Version is defined at build time from package.json
-export const APP_VERSION = "1.0.7";
+export const APP_VERSION = "1.0.8";
 
 export interface ChangelogEntry {
 	version: string;
@@ -17,6 +17,12 @@ export interface ChangelogEntry {
  * Update this array when releasing new versions
  */
 export const CHANGELOG_ENTRIES: ChangelogEntry[] = [
+	{
+		version: "1.0.8",
+		date: "2026-04-08",
+		content: `### Fixed
+- Issue list in the entry dialog now loads all issues from Redmine instead of only the first 100`,
+	},
 	{
 		version: "1.0.7",
 		date: "2026-03-30",
