@@ -15,7 +15,7 @@ export const REDMINE_API = {
 	/**
 	 * Default limit for fetching issues from Redmine API
 	 */
-	DEFAULT_ISSUES_LIMIT: 1000,
+	DEFAULT_ISSUES_LIMIT: 5000,
 
 	/**
 	 * Default offset for pagination

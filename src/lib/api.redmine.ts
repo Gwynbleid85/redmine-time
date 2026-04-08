@@ -439,34 +439,65 @@ export const getIssues = createServerFn({ method: "GET" })
 		const projectId = process.env.REDMINE_PROJECT_ID || "allriskcore";
 		validateRedmineConfig(baseUrl, apiKey);
 
-		// Build query parameters
-		const params = new URLSearchParams();
-		if (data.projectId || projectId) {
-			params.append("project_id", data.projectId || projectId || "");
-		}
-		params.append("limit", data.limit.toString());
-		params.append("offset", data.offset.toString());
+		// Redmine API caps per-request `limit` at 100, so we paginate via offset.
+		// `data.limit` is treated as a hard cap on the total number of results
+		// returned to the caller.
+		const REDMINE_MAX_PAGE_SIZE = 100;
+		const MAX_PAGES = 100; // safety guard: at most 10k issues per call
+		const totalCap = Math.max(data.limit, 1);
+		const pageSize = Math.min(totalCap, REDMINE_MAX_PAGE_SIZE);
 
-		const url = `${baseUrl}/issues.json?${params.toString()}`;
+		const effectiveProjectId = data.projectId || projectId;
+		const baseParams = new URLSearchParams();
+		if (effectiveProjectId) {
+			baseParams.append("project_id", effectiveProjectId);
+		}
+		// Stable sort so results don't shift between pages if issues are updated
+		// mid-pagination.
+		baseParams.append("sort", "id:asc");
+		baseParams.append("limit", pageSize.toString());
 
 		try {
-			const response = await fetch(url, {
-				method: "GET",
-				headers: {
-					"X-Redmine-API-Key": apiKey,
-					Accept: "application/json",
-				},
-			});
+			let offset = data.offset;
+			let totalCount = Number.POSITIVE_INFINITY;
+			const allIssues: RedmineIssueDetail[] = [];
 
-			if (!response.ok) {
-				throw new Error(
-					`Redmine API error: ${response.status} ${response.statusText}`,
-				);
+			for (let page = 0; page < MAX_PAGES; page++) {
+				if (offset >= totalCount || allIssues.length >= totalCap) {
+					break;
+				}
+
+				const params = new URLSearchParams(baseParams);
+				params.set("offset", offset.toString());
+
+				const url = `${baseUrl}/issues.json?${params.toString()}`;
+				const response = await fetch(url, {
+					method: "GET",
+					headers: {
+						"X-Redmine-API-Key": apiKey,
+						Accept: "application/json",
+					},
+				});
+
+				if (!response.ok) {
+					throw new Error(
+						`Redmine API error: ${response.status} ${response.statusText}`,
+					);
+				}
+
+				const json = (await response.json()) as RedmineIssuesResponse;
+				totalCount = json.total_count;
+
+				if (json.issues.length === 0) {
+					break;
+				}
+
+				const remaining = totalCap - allIssues.length;
+				allIssues.push(...json.issues.slice(0, remaining));
+				offset += json.issues.length;
 			}
 
-			const json = (await response.json()) as RedmineIssuesResponse;
-
-			return json.issues;
+			return allIssues;
 		} catch (error) {
 			console.error("Error fetching issues from Redmine:", error);
 			throw error;
