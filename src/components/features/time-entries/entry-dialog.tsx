@@ -210,8 +210,11 @@ export function EntryDialog({
 		date?: string;
 	}>({});
 
-	// Update time entry form when task changes or selectedDate changes
+	// Sync time entry form with the dialog's open state and the entry being
+	// edited. When opening for a new entry (task is null), reset to defaults so
+	// the previous edit's values don't leak into the create flow.
 	useEffect(() => {
+		if (!open) return;
 		if (task) {
 			setTimeEntryForm({
 				issueId: task.issueId || null,
@@ -220,13 +223,17 @@ export function EntryDialog({
 				spentOn: formatDateForRedmine(task.date),
 				activityId: task.activityId || 9,
 			});
-		} else if (selectedDate) {
-			setTimeEntryForm((prev) => ({
-				...prev,
-				spentOn: formatDateForRedmine(selectedDate),
-			}));
+		} else {
+			setTimeEntryForm({
+				issueId: null,
+				hours: "01:00",
+				comments: "",
+				spentOn: formatDateForRedmine(selectedDate || new Date()),
+				activityId: 9,
+			});
 		}
-	}, [task, selectedDate]);
+		setIssueSearchQuery("");
+	}, [open, task, selectedDate]);
 
 	// Update placeholder form when placeholder changes or selectedDate changes
 	useEffect(() => {
