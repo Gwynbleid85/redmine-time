@@ -210,8 +210,11 @@ export function EntryDialog({
 		date?: string;
 	}>({});
 
-	// Update time entry form when task changes or selectedDate changes
+	// Sync time entry form with the dialog's open state and the entry being
+	// edited. When opening for a new entry (task is null), reset to defaults so
+	// the previous edit's values don't leak into the create flow.
 	useEffect(() => {
+		if (!open) return;
 		if (task) {
 			setTimeEntryForm({
 				issueId: task.issueId || null,
@@ -220,13 +223,17 @@ export function EntryDialog({
 				spentOn: formatDateForRedmine(task.date),
 				activityId: task.activityId || 9,
 			});
-		} else if (selectedDate) {
-			setTimeEntryForm((prev) => ({
-				...prev,
-				spentOn: formatDateForRedmine(selectedDate),
-			}));
+		} else {
+			setTimeEntryForm({
+				issueId: null,
+				hours: "01:00",
+				comments: "",
+				spentOn: formatDateForRedmine(selectedDate || new Date()),
+				activityId: 9,
+			});
 		}
-	}, [task, selectedDate]);
+		setIssueSearchQuery("");
+	}, [open, task, selectedDate]);
 
 	// Update placeholder form when placeholder changes or selectedDate changes
 	useEffect(() => {
@@ -353,7 +360,7 @@ export function EntryDialog({
 
 	return (
 		<Dialog open={open} onOpenChange={onOpenChange}>
-			<DialogContent className="sm:max-w-125">
+			<DialogContent className="grid-cols-1 sm:max-w-125">
 				<DialogHeader>
 					<DialogTitle>
 						{isEditingTimeEntry
@@ -396,9 +403,9 @@ export function EntryDialog({
 					{/* Time Entry Tab */}
 					<TabsContent value="timeEntry">
 						<form onSubmit={handleTimeEntrySubmit}>
-							<div className="grid gap-4 py-4">
+							<div className="grid grid-cols-1 gap-4 py-4">
 								{/* Issue Selection */}
-								<div className="grid gap-2">
+								<div className="grid grid-cols-1 gap-2">
 									<Label htmlFor="issueId">Issue *</Label>
 									<Popover
 										open={issueComboOpen}
@@ -416,16 +423,18 @@ export function EntryDialog({
 													isLoadingCustom
 												}
 											>
-												{timeEntryForm.issueId
-													? (() => {
-															const selected = allIssues?.find(
-																(issue) => issue.id === timeEntryForm.issueId,
-															);
-															return selected
-																? `#${selected.id} - ${selected.subject}`
-																: "Select an issue";
-														})()
-													: "Select an issue"}
+												<span className="min-w-0 flex-1 truncate text-left">
+													{timeEntryForm.issueId
+														? (() => {
+																const selected = allIssues?.find(
+																	(issue) => issue.id === timeEntryForm.issueId,
+																);
+																return selected
+																	? `#${selected.id} - ${selected.subject}`
+																	: "Select an issue";
+															})()
+														: "Select an issue"}
+												</span>
 												<ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
 											</Button>
 										</PopoverTrigger>
@@ -489,7 +498,7 @@ export function EntryDialog({
 								</div>
 
 								{/* Hours */}
-								<div className="grid gap-2">
+								<div className="grid grid-cols-1 gap-2">
 									<Label htmlFor="hours">Duration *</Label>
 									<Input
 										type="text"
@@ -509,7 +518,7 @@ export function EntryDialog({
 								</div>
 
 								{/* Comments */}
-								<div className="grid gap-2">
+								<div className="grid grid-cols-1 gap-2">
 									<Label htmlFor="comments">Comments</Label>
 									<Textarea
 										value={timeEntryForm.comments}
@@ -525,7 +534,7 @@ export function EntryDialog({
 								</div>
 
 								{/* Date */}
-								<div className="grid gap-2">
+								<div className="grid grid-cols-1 gap-2">
 									<Label htmlFor="spentOn">Date *</Label>
 									<Input
 										type="date"
@@ -541,7 +550,7 @@ export function EntryDialog({
 								</div>
 
 								{/* Activity */}
-								<div className="grid gap-2">
+								<div className="grid grid-cols-1 gap-2">
 									<Label htmlFor="activityId">Activity *</Label>
 									<Select
 										value={timeEntryForm.activityId.toString()}
