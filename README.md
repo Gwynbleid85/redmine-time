@@ -66,14 +66,17 @@ Create a `.env` file in the project root:
 ```env
 # Database
 DATABASE_URL=postgresql://user:password@localhost:5432/redmine_time
+POSTGRES_DB=redmine_time
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=password
 
 # Redmine
-REDMINE_URL=https://your-redmine-instance.com
-REDMINE_API_KEY=your-api-key
+REDMINE_BASE_URL=https://your-redmine-instance.com
 
 # Auth
 BETTER_AUTH_SECRET=your-secret-key
 BETTER_AUTH_URL=http://localhost:3000
+BETTER_AUTH_TRUSTED_ORIGINS=http://localhost:3000
 ```
 
 ### Installation
@@ -97,25 +100,30 @@ The app will be available at `http://localhost:3000`.
 
 ## Docker Deployment
 
-Build and run with Docker:
+Run the app and PostgreSQL with Docker Compose:
 
 ```bash
-# Build the image
-docker build -t redmine-time .
+# Copy the example env file if you do not have one yet
+cp .env.example .env
 
-# Run the container
-docker run -p 3000:3000 \
-  -e DATABASE_URL=your-database-url \
-  -e REDMINE_URL=your-redmine-url \
-  -e REDMINE_API_KEY=your-api-key \
-  -e BETTER_AUTH_SECRET=your-secret \
-  redmine-time
+# Start the app and bundled PostgreSQL
+docker compose up --build
 ```
 
-Or use the provided build script:
+The app will be available at `http://localhost:3000`.
+
+Notes:
+
+- `compose.yml` overrides `DATABASE_URL` so the app talks to the bundled `db` container instead of `localhost`.
+- Database data is persisted in the `postgres_data` Docker volume.
+- Migrations run automatically on app startup.
+- `BETTER_AUTH_URL` and `BETTER_AUTH_TRUSTED_ORIGINS` should match the URL you use to open the app.
+- Redmine is not included in Compose. Set `REDMINE_BASE_URL` in `.env` to your existing Redmine instance.
+
+If you only want to build the image manually, you can still use plain Docker:
 
 ```bash
-./build_and_push.sh 1.0.0
+docker build -t redmine-time .
 ```
 
 ## Development
