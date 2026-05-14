@@ -64,6 +64,16 @@ export function ChangelogDialog({
 							p: ({ children }) => (
 								<p className="text-sm text-muted-foreground mb-2">{children}</p>
 							),
+							a: ({ children, href }) => (
+								<a
+									className="font-medium text-primary underline underline-offset-2"
+									href={href}
+									target="_blank"
+									rel="noopener noreferrer"
+								>
+									{children}
+								</a>
+							),
 							code: ({ children }) => (
 								<code className="bg-muted px-1 py-0.5 rounded text-xs">
 									{children}

@@ -4,7 +4,7 @@
  */
 
 // Version is defined at build time from package.json
-export const APP_VERSION = "1.0.8";
+export const APP_VERSION = "1.0.9";
 
 export interface ChangelogEntry {
 	version: string;
@@ -17,6 +17,13 @@ export interface ChangelogEntry {
  * Update this array when releasing new versions
  */
 export const CHANGELOG_ENTRIES: ChangelogEntry[] = [
+	{
+		version: "1.0.9",
+		date: "2026-05-14",
+		content: `### Fixed
+- Issue selector text now truncates cleanly with an ellipsis when entries are too long — [**[benko325](https://github.com/benko325)**]
+- Entry forms now reset correctly when reopened — [**[benko325](https://github.com/benko325)**]`,
+	},
 	{
 		version: "1.0.8",
 		date: "2026-04-08",
