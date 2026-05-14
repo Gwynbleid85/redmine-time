@@ -1,4 +1,5 @@
 #!/bin/bash
+set -euo pipefail
 
 # Get version from package.json
 if command -v jq &> /dev/null; then
@@ -27,18 +28,21 @@ fi
 
 echo "Building version: $VERSION"
 
-# Commit version bump
+# Commit version bump if there are changes
 git add package.json CHANGELOG.md src/lib/changelog-data.ts
-git commit -m "chore: release v$VERSION"
+if ! git diff --cached --quiet -- package.json CHANGELOG.md src/lib/changelog-data.ts; then
+    git commit -m "chore: release v$VERSION"
+else
+    echo "No release files changed; skipping commit."
+fi
+
 git push
 
-echo "Building Docker image..."
-docker buildx build --platform linux/amd64 . -t redmine-time:$VERSION
-
-echo "Tagging Docker image for registry..."
-docker tag redmine-time:$VERSION dockerregistry.naseljsemslupkuodbananu.com/redmine-time:$VERSION
-
-echo "Pushing Docker image to registry..."
-docker push dockerregistry.naseljsemslupkuodbananu.com/redmine-time:$VERSION
+echo "Building and pushing Docker image..."
+docker buildx build \
+    --platform linux/amd64 \
+    -t dockerregistry.naseljsemslupkuodbananu.com/redmine-time:$VERSION \
+    --push \
+    .
 
 echo "Successfully released version $VERSION"
