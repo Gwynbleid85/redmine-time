@@ -311,6 +311,19 @@ export function EntryDialog({
 		resetTimeEntryForm();
 	};
 
+	const handleSyncQuickAction = () => {
+		onSaveTimeEntry({
+			issueId: 185333,
+			hours: 0.5,
+			comments: "Team sync",
+			spentOn: timeEntryForm.spentOn,
+			activityId: 9,
+		});
+
+		onOpenChange(false);
+		resetTimeEntryForm();
+	};
+
 	// Handlers for placeholder
 	const handlePlaceholderTypeChange = (newType: PlaceholderType) => {
 		setPlaceholderForm((prev) => ({
@@ -387,6 +400,14 @@ export function EntryDialog({
 							onClick={handleDailyQuickAction}
 						>
 							Daily quick
+						</Button>
+						<Button
+							type="button"
+							variant="secondary"
+							size="sm"
+							onClick={handleSyncQuickAction}
+						>
+							Sync quick
 						</Button>
 					</div>
 				)}
