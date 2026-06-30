@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.10] - 2026-06-30
+
+### Added
+
+- `Sync quick` action in the entry dialog for faster creation of sync time entries — [benko325](https://github.com/benko325)
+
+### Changed
+
+- `Daily quick` action duration reduced from 30 minutes to 15 minutes — [benko325](https://github.com/benko325)
+
 ## [1.0.9] - 2026-05-14
 
 ### Fixed
