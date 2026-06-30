@@ -301,7 +301,7 @@ export function EntryDialog({
 	const handleDailyQuickAction = () => {
 		onSaveTimeEntry({
 			issueId: 129076,
-			hours: 0.5,
+			hours: 0.25,
 			comments: "Daily",
 			spentOn: timeEntryForm.spentOn,
 			activityId: 9,
