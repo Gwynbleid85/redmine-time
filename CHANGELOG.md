@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - `Daily quick` action duration reduced from 30 minutes to 15 minutes — [benko325](https://github.com/benko325)
+- `Daily quick` action now logs time against the `Organizační meetingy` issue instead of `Internal activities` — [benko325](https://github.com/benko325)
 
 ## [1.0.9] - 2026-05-14
 
