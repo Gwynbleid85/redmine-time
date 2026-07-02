@@ -324,6 +324,19 @@ export function EntryDialog({
 		resetTimeEntryForm();
 	};
 
+	const handleRetrospectiveQuickAction = () => {
+		onSaveTimeEntry({
+			issueId: 129076,
+			hours: 1,
+			comments: "Retrospektiva",
+			spentOn: timeEntryForm.spentOn,
+			activityId: 9,
+		});
+
+		onOpenChange(false);
+		resetTimeEntryForm();
+	};
+
 	// Handlers for placeholder
 	const handlePlaceholderTypeChange = (newType: PlaceholderType) => {
 		setPlaceholderForm((prev) => ({
@@ -408,6 +421,14 @@ export function EntryDialog({
 							onClick={handleSyncQuickAction}
 						>
 							Sync quick
+						</Button>
+						<Button
+							type="button"
+							variant="secondary"
+							size="sm"
+							onClick={handleRetrospectiveQuickAction}
+						>
+							Retro quick
 						</Button>
 					</div>
 				)}
