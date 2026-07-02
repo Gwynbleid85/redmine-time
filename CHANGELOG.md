@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - `Sync quick` action in the entry dialog for faster creation of sync time entries — [benko325](https://github.com/benko325)
+- `Retrospective quick` action in the entry dialog for faster creation of retrospective time entries — [benko325](https://github.com/benko325)
 
 ### Changed
 

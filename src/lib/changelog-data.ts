@@ -22,6 +22,7 @@ export const CHANGELOG_ENTRIES: ChangelogEntry[] = [
 		date: "2026-06-30",
 		content: `### Added
 - \`Sync quick\` action in the entry dialog for faster creation of sync time entries — [**[benko325](https://github.com/benko325)**]
+- \`Retrospective quick\` action in the entry dialog for faster creation of retrospective time entries — [**[benko325](https://github.com/benko325)**]
 
 ### Changed
 - \`Daily quick\` action duration reduced from 30 minutes to 15 minutes — [**[benko325](https://github.com/benko325)**]
