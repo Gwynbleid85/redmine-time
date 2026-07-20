@@ -4,7 +4,7 @@
  */
 
 // Version is defined at build time from package.json
-export const APP_VERSION = "1.0.9";
+export const APP_VERSION = "1.0.10";
 
 export interface ChangelogEntry {
 	version: string;
@@ -17,6 +17,17 @@ export interface ChangelogEntry {
  * Update this array when releasing new versions
  */
 export const CHANGELOG_ENTRIES: ChangelogEntry[] = [
+	{
+		version: "1.0.10",
+		date: "2026-06-30",
+		content: `### Added
+- \`Sync quick\` action in the entry dialog for faster creation of sync time entries — [**[benko325](https://github.com/benko325)**]
+- \`Retrospective quick\` action in the entry dialog for faster creation of retrospective time entries — [**[benko325](https://github.com/benko325)**]
+
+### Changed
+- \`Daily quick\` action duration reduced from 30 minutes to 15 minutes — [**[benko325](https://github.com/benko325)**]
+- \`Daily quick\` action now logs time against the \`Organizační meetingy\` issue instead of \`Internal activities\` — [**[benko325](https://github.com/benko325)**]`,
+	},
 	{
 		version: "1.0.9",
 		date: "2026-05-14",

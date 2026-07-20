@@ -300,9 +300,35 @@ export function EntryDialog({
 
 	const handleDailyQuickAction = () => {
 		onSaveTimeEntry({
-			issueId: 129076,
-			hours: 0.5,
+			issueId: 185333,
+			hours: 0.25,
 			comments: "Daily",
+			spentOn: timeEntryForm.spentOn,
+			activityId: 9,
+		});
+
+		onOpenChange(false);
+		resetTimeEntryForm();
+	};
+
+	const handleSyncQuickAction = () => {
+		onSaveTimeEntry({
+			issueId: 185333,
+			hours: 0.5,
+			comments: "Team sync",
+			spentOn: timeEntryForm.spentOn,
+			activityId: 9,
+		});
+
+		onOpenChange(false);
+		resetTimeEntryForm();
+	};
+
+	const handleRetrospectiveQuickAction = () => {
+		onSaveTimeEntry({
+			issueId: 129076,
+			hours: 1,
+			comments: "Retrospektiva",
 			spentOn: timeEntryForm.spentOn,
 			activityId: 9,
 		});
@@ -387,6 +413,22 @@ export function EntryDialog({
 							onClick={handleDailyQuickAction}
 						>
 							Daily quick
+						</Button>
+						<Button
+							type="button"
+							variant="secondary"
+							size="sm"
+							onClick={handleSyncQuickAction}
+						>
+							Sync quick
+						</Button>
+						<Button
+							type="button"
+							variant="secondary"
+							size="sm"
+							onClick={handleRetrospectiveQuickAction}
+						>
+							Retro quick
 						</Button>
 					</div>
 				)}
