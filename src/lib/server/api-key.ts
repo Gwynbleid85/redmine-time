@@ -65,8 +65,6 @@ export const validateAndSetApiKeyFn = createServerFn({ method: "POST" })
 		}
 
 		// Validate the API key by calling Redmine /users/current.json endpoint
-		console.log(`${baseUrl}/users/current.json`);
-		console.log("Validating API key: ", data);
 
 		try {
 			// TODO: Uncomment to enable actual validation
